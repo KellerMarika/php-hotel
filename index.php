@@ -100,7 +100,7 @@ if ($startToFilter) {
           <select class="form-select" name="vote" id="vote">
 
             <?php for ($i = 1; $i <= 5; $i++) {     ?>
-              <option value="<?php echo $i ?>" <?php echo $i === 1 ?   "checked" : "" ?>> <?php echo $i === 1 ? $i . " stella" : $i . " stelle" ?></option>
+              <option value="<?php echo $i ?>"  <?php echo isset($_GET["vote"])? "selected" : "" ?>> <?php echo $i === 1 ? $i . " stella" : $i . " stelle" ?></option>
             <?php } ?>
 
           </select>
@@ -108,7 +108,7 @@ if ($startToFilter) {
         <div class="d-flex justify-content-between my-3 ">
         <div class="form-group">
           <label class="hs-6 fw-bold  pe-3"> parking required:</label>
-          <input type="checkbox" id="parking-true" name="parking" value="1">
+          <input type="checkbox" id="parking-true" name="parking" value="1" <?php echo isset($_GET["parking"])? "checked" : "" ?> >
         </div>
 
           <button class="btn btn-danger my-2">search!</button>
