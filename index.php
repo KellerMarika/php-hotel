@@ -100,16 +100,16 @@ if ($startToFilter) {
           <select class="form-select" name="vote" id="vote">
 
             <?php for ($i = 1; $i <= 5; $i++) {     ?>
-              <option value="<?php echo $i ?>"  <?php echo isset($_GET["vote"])? "selected" : "" ?>> <?php echo $i === 1 ? $i . " stella" : $i . " stelle" ?></option>
+              <option value="<?php echo $i ?>" <?php echo isset($_GET["vote"]) ? "selected" : "" ?>> <?php echo $i === 1 ? $i . " stella" : $i . " stelle" ?></option>
             <?php } ?>
 
           </select>
         </div>
         <div class="d-flex justify-content-between my-3 ">
-        <div class="form-group">
-          <label class="hs-6 fw-bold  pe-3"> parking required:</label>
-          <input type="checkbox" id="parking-true" name="parking" value="1" <?php echo isset($_GET["parking"])? "checked" : "" ?> >
-        </div>
+          <div class="form-group">
+            <label class="hs-6 fw-bold  pe-3"> parking required:</label>
+            <input type="checkbox" id="parking-true" name="parking" value="1" <?php echo isset($_GET["parking"]) ? "checked" : "" ?>>
+          </div>
 
           <button class="btn btn-danger my-2">search!</button>
         </div>
@@ -132,21 +132,18 @@ if ($startToFilter) {
           <tr>
             <td> <?php echo $hotel["name"]  ?></td>
             <td class=""> <?php echo $hotel["description"]  ?></td>
-            <td> <?php echo $hotel['parking'] ? ("present") : ("absent") ?></td>
+            <td> <?php echo $hotel['parking'] ? "present" : "absent" ?></td>
             <td> <?php echo $hotel["vote"] ?>/5</td>
             <td> <?php echo $hotel["distance_to_center"] ?>Km</td>
           </tr>
         <?php }  ?>
       </tbody>
-
     </table>
-
   </div>
-
 
   <div class="map-container position-relative w-100 h-100">
     <?php foreach ($filtredHotels as $hotel) {  ?>
-      <div class="card-container position-absolute" id=<?php echo $hotel['name'] ?>>
+      <div class="card-container position-absolute <?php echo $hotel['name'] ?>" id="Hotel">
         <div class="card p-1">
 
           <div class="card-header text-center ">
@@ -157,7 +154,7 @@ if ($startToFilter) {
             <p class="description"> <?php echo $hotel['description'] ?></p>
 
             <h6 class="parking"> <span class="pe-2">parking:</span>
-              <?php echo $hotel['parking'] ? ("present") : ("absent") ?></h6>
+              <?php echo $hotel['parking'] ? "present" : "absent" ?></h6>
 
             <h6 class="distance"> <span class="pe-2">distance:</span>
               <?php echo " {$hotel['distance_to_center']}km" ?></h6>
@@ -168,7 +165,7 @@ if ($startToFilter) {
               <div class="vote stars-container gradient-background">
                 <div class="negative-vote-percentage bg-light" <?php echo " style= width:" . 100 - $hotel['vote'] * 20 . "%"  ?>></div>
 
-                <?php for ($i = 0; $i < 5; $i++) {     ?>
+                <?php for ($i = 0; $i < 5; $i++) {  ?>
                   <i class="fa fa-star"></i>
                 <?php } ?>
               </div>
@@ -181,7 +178,6 @@ if ($startToFilter) {
     <?php  } ?>
   </div>
 </body>
-
 </html>
 
 <style>
@@ -196,10 +192,11 @@ if ($startToFilter) {
 
   .form-container {
     top: 50px;
-    background: rgb(247,140,0);
-    background: rgb(247,165,0);
-background: linear-gradient(0deg, rgba(247,165,0,1) 0%, rgba(255,201,0,1) 5%, rgba(238,217,139,1) 22%, rgba(240,215,125,1) 63%, rgba(241,214,114,1) 87%, rgba(255,198,0,1) 98%, rgba(249,148,5,1) 100%);
+    background: rgb(247, 140, 0);
+    background: rgb(247, 165, 0);
+    background: linear-gradient(0deg, rgba(247, 165, 0, 1) 0%, rgba(255, 201, 0, 1) 5%, rgba(238, 217, 139, 1) 22%, rgba(240, 215, 125, 1) 63%, rgba(241, 214, 114, 1) 87%, rgba(255, 198, 0, 1) 98%, rgba(249, 148, 5, 1) 100%);
   }
+
   /* stars */
   .gradient-background {
     position: relative;
@@ -240,29 +237,25 @@ background: linear-gradient(0deg, rgba(247,165,0,1) 0%, rgba(255,201,0,1) 5%, rg
     overflow: hidden;
   }
 
-
-  #Hotel:nth-child(1) {
+  #Hotel.Belvedere {
     transform: translateX(1040px) translateY(630px);
   }
 
-  #Hotel:nth-child(2) {
+  #Hotel.Futuro {
     transform: translateX(660px) translateY(590px);
   }
 
-  #Hotel:nth-child(3) {
+  #Hotel.Rivamare {
     transform: translateX(1580px) translateY(750px);
   }
 
-  #Hotel:nth-child(4) {
+  #Hotel.Bellavista {
     transform: translateX(1300px) translateY(700px);
   }
 
-  #Hotel:nth-child(5) {
+  #Hotel.Milano {
     transform: translateX(1380px) translateY(430px);
   }
-
-
-
 
   .fa-location-dot {
     bottom: 0;
