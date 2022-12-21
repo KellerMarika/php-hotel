@@ -1,7 +1,6 @@
 <?php
 
 $hotels = [
-
   [
     'name' => 'Hotel Belvedere',
     'description' => 'Hotel Belvedere Descrizione',
@@ -37,29 +36,33 @@ $hotels = [
     'vote' => 2,
     'distance_to_center' => 50
   ],
-
 ];
 
 $filtredHotels = [];
+$startToFilter = isset($_GET["parking"]) || isset($_GET["vote"]);
 
+if ($startToFilter) {
 
-if (isset($_GET['parking'])) {
-  /*    echo($_GET['parking']); */
   foreach ($hotels as $hotel) {
-    if ($hotel['parking'] == $_GET['parking']) {
+    $isIncluded = true;
+
+
+    if (isset($_GET["parking"]) && !(($hotel["parking"]) == ($_GET["parking"]))) {
+      $isIncluded = false;
+    }
+
+    if (isset($_GET["vote"]) && $hotel["vote"] < $_GET["vote"]) {
+      $isIncluded = false;
+    }
+    if ($isIncluded) {
       $filtredHotels[] = $hotel;
-      var_dump($filtredHotels);
     }
   }
 } else {
   $filtredHotels = $hotels;
 }
 
-
-
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,36 +87,32 @@ if (isset($_GET['parking'])) {
 
 
 <body>
-  <div class="form-container position-absolute bg-light p-4  m-5 h-75 rounded-4 w-25">
+  <div class="form-container position-absolute p-4  m-5  rounded-4 w-25">
     <!-- action (pagina corrente) e method (GET) di default -->
-    <form>
+    <form class="m">
       <fieldset>
-        <legend>
-          <h1>find the hotel of your dreams</h1>
+        <legend class=" border-bottom">
+          <h1 class="text-danger fw-bold text-uppercase">find your hotel:</h1>
         </legend>
 
-        <div class="form-group">
+        <div class="form-group ">
+          <label class="hs-6 fw-bold my-2" for="vote">Min vote accepted</label>
+          <select class="form-select" name="vote" id="vote">
 
-          <label class="hs-6 fw-bold my-3"> parking required:</label>
+            <?php for ($i = 1; $i <= 5; $i++) {     ?>
+              <option value="<?php echo $i ?>" <?php echo $i === 1 ?   "checked" : "" ?>> <?php echo $i === 1 ? $i . " stella" : $i . " stelle" ?></option>
+            <?php } ?>
 
-          <label class="ps-3" for="parking-true">true:</label>
-          <input type="radio" id="parking-true" name="parking" value="1">
-
-          <label class="ps-3" for="parking-false">false:</label>
-          <input type="radio" id="parking-false" name="parking" value="0">
-        </div>
-
-        <div class="form-group my-3">
-          <label class="hs-6 fw-bold" for="vote">Min vote accepted</label>
-          <select class="fom-control" name="vote" id="vote">
-
-          <?php for ($i = 1; $i <= 5; $i++) {     ?>
-            <option value= "<?php echo $i ?>"  <?php echo $i === 1?   "checked" : "" ?>> <?php echo $i === 1? $i . " stella" : $i." stelle" ?></option>
-                <?php } ?>
-       
           </select>
         </div>
-        <button class="btn btn-danger">search!</button>
+        <div class="d-flex justify-content-between my-3 ">
+        <div class="form-group">
+          <label class="hs-6 fw-bold  pe-3"> parking required:</label>
+          <input type="checkbox" id="parking-true" name="parking" value="1">
+        </div>
+
+          <button class="btn btn-danger my-2">search!</button>
+        </div>
       </fieldset>
     </form>
 
@@ -146,7 +145,7 @@ if (isset($_GET['parking'])) {
 
 
   <div class="map-container position-relative w-100 h-100">
-    <?php foreach ($hotels as $hotel) {  ?>
+    <?php foreach ($filtredHotels as $hotel) {  ?>
       <div class="card-container position-absolute" id=<?php echo $hotel['name'] ?>>
         <div class="card p-1">
 
@@ -185,10 +184,6 @@ if (isset($_GET['parking'])) {
 
 </html>
 
-
-
-
-
 <style>
   body {
     background-color: #710f10;
@@ -196,13 +191,15 @@ if (isset($_GET['parking'])) {
     background-size: cover;
     background-repeat: no-repeat;
     overflow: hidden;
+    font-family: 'Roboto', sans-serif;
   }
 
   .form-container {
-    top: 80px;
-
+    top: 50px;
+    background: rgb(247,140,0);
+    background: rgb(247,165,0);
+background: linear-gradient(0deg, rgba(247,165,0,1) 0%, rgba(255,201,0,1) 5%, rgba(238,217,139,1) 22%, rgba(240,215,125,1) 63%, rgba(241,214,114,1) 87%, rgba(255,198,0,1) 98%, rgba(249,148,5,1) 100%);
   }
-
   /* stars */
   .gradient-background {
     position: relative;
@@ -225,6 +222,7 @@ if (isset($_GET['parking'])) {
   #Hotel {
     width: fit-content;
     transform: scale(80%);
+    background-color: #efd884;
   }
 
   .card:hover {
